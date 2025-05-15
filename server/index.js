@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import authRoutes from './routes/auth.js';
+import productRoutes from './routes/products.js';
+import { seedProducts } from './data/initialProducts.js';
 
 dotenv.config();
 
@@ -20,7 +22,11 @@ app.use(express.json());
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Connected to MongoDB');
+    // Seed initial products
+    seedProducts();
+  })
   .catch((error) => console.error('MongoDB connection error:', error));
 
 // Routes
